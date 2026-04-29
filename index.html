@@ -11,10 +11,10 @@
 :root {
   --black: #080808;
   --white: #F5F3EF;
-  --green: #1C4A35;
+  --green: #1A1A1A;
   --acid: #C8F04D;
-  --dim: #1A1A1A;
-  --mid: #2E2E2E;
+  --dim: #141414;
+  --mid: #222222;
   --muted: #888;
   --border: rgba(255,255,255,0.08);
 }
@@ -367,6 +367,7 @@ body::after {
   width: 26px; height: 26px; border-radius: 5px; background: var(--acid);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.8rem; flex-shrink: 0;
+  color: white;
 }
 .leg-txt strong { display: block; font-size: 0.8rem; font-weight: 500; }
 .leg-txt span { font-size: 0.68rem; color: var(--muted); }
@@ -420,10 +421,10 @@ body::after {
   font-size: 0.62rem; font-weight: 800;
   color: var(--black);
   border: 2px solid rgba(255,255,255,0.8);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 0 0 rgba(200,240,77,0.4);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 0 0 rgba(200,240,77,0.3);
   transition: box-shadow 0.2s;
 }
-.mmarker:hover .mmarker-inner { box-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 0 4px rgba(200,240,77,0.25); }
+.mmarker:hover .mmarker-inner { box-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 0 4px rgba(200,240,77,0.2); }
 .mmarker.sponsor .mmarker-inner {
   background: var(--acid);
   border-radius: 6px;
@@ -686,7 +687,7 @@ body::after {
   display: flex; align-items: center; gap: 0.6rem;
   padding: 0.55rem 0.75rem;
   background: rgba(200,240,77,0.06);
-  border: 1px solid rgba(200,240,77,0.12);
+  border: 1px solid rgba(200,240,77,0.15);
   border-radius: 8px;
   font-size: 0.83rem;
   color: var(--white);
@@ -711,6 +712,34 @@ body::after {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(200,240,77,0.3); }
+
+/* Sponsor pill label on map */
+.sponsor-pill {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: all;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.sponsor-pill:hover { transform: translate(-50%, -50%) scale(1.08); z-index: 20; }
+.sponsor-pill-inner {
+  background: var(--acid);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+.sponsor-pill:hover .sponsor-pill-inner {
+  box-shadow: 0 4px 20px rgba(200,240,77,0.5);
+}
 </style>
 </head>
 <body>
@@ -734,7 +763,7 @@ body::after {
       <div class="title-tag">Mayfair Lakes · Richmond BC · 2026</div>
       <h1 class="title-h1">PGA of BC<em>Sponsor-Media<br>Invitational</em></h1>
       <div class="title-meta">
-        <div class="meta-pill"><span class="ml">Date</span><span class="mv">[ TBD ]</span></div>
+        <div class="meta-pill"><span class="ml">Date</span><span class="mv">May 14, 2026</span></div>
         <div class="meta-pill"><span class="ml">Format</span><span class="mv">Shotgun Start</span></div>
         <div class="meta-pill"><span class="ml">Tee Time</span><span class="mv">[ TBD ]</span></div>
         <div class="meta-pill"><span class="ml">Course</span><span class="mv">Mayfair Lakes GCC</span></div>
@@ -759,7 +788,7 @@ body::after {
       <div class="sched-eyebrow">2026 PGA of BC · Mayfair Lakes</div>
       <h2 class="sched-title">Day's Schedule</h2>
     </div>
-    <div class="sched-note">All times subject to change. Check in at the main entrance on arrival.</div>
+    <div class="sched-note">May 14, 2026 · Mayfair Lakes Golf & Country Club, Richmond BC</div>
   </div>
   <div class="sched-list" id="sched-list"></div>
 </section>
@@ -886,14 +915,13 @@ body::after {
 <script>
 // ── DATA ───────────────────────────────────────
 const SCHEDULE = [
-  {t:'[ TIME ]', e:'Registration & Welcome',      d:'Main Entrance — GolfTEC & PGA of BC on-site'},
-  {t:'[ TIME ]', e:'Tee Gifts & Breakfast',       d:'[ Location — e.g. Lakeside Grill Patio ]'},
-  {t:'[ TIME ]', e:'Shotgun Start',               d:'All players to their assigned holes — let\'s go!'},
-  {t:'[ TIME ]', e:'On-Course Contests Begin',    d:'See course map for all contest locations'},
-  {t:'[ TIME ]', e:'Halfway House',               d:'[ Location — add details ]'},
-  {t:'[ TIME ]', e:'Round Concludes',             d:'Players return to the clubhouse'},
-  {t:'[ TIME ]', e:'Cocktail Reception & Dinner', d:'[ Venue — add details ]'},
-  {t:'[ TIME ]', e:'Awards & Prizes',             d:'[ Add prize details and ceremony notes ]'},
+  {t:'7:00 AM', e:'Registration & Range Opens',  d:'Main Entrance — GolfTEC & PGA of BC on-site'},
+  {t:'7:40 AM', e:'Pro Meeting',                 d:'All players and pros to attend before heading to holes'},
+  {t:'7:50 AM', e:'Travel to Holes',             d:'Make your way to your assigned shotgun hole'},
+  {t:'8:00 AM', e:'Shotgun Start',               d:'All players tee off simultaneously — good luck out there!'},
+  {t:'12:30 PM', e:'Lunch Banquet Begins',       d:'Join us in the clubhouse for lunch and celebration'},
+  {t:'1:00 PM', e:'Prize Presentation',          d:'Contest winners and prizes announced'},
+  {t:'1:30 PM', e:'Estimated Conclusion',        d:'Thank you for joining us — see you next year!'},
 ];
 
 const DATA = {
@@ -913,19 +941,20 @@ const DATA = {
 };
 
 const MARKERS = [
-  ['sponsor-entrance',53,96,'#B8962E','★',true],
-  ['sponsor-h1',      42,40,'#B8962E','★',true],
-  ['sponsor-h6',      63,68,'#B8962E','★',true],
-  ['sponsor-h16',     35,71,'#B8962E','★',true],
-  ['contest-h1',      44,40,'#E74C3C','1', false],
-  ['contest-h4',      62,29,'#E67E22','4', false],
-  ['contest-h6',      65,69,'#C9A800','6', false],
-  ['contest-h8',      54,82,'#8E44AD','8', false],
-  ['contest-h11',     28,17,'#2980B9','11',false],
-  ['contest-h12',     50,5, '#16A085','12',false],
-  ['contest-h13',     35,25,'#27AE60','13',false],
-  ['contest-h15',     41,60,'#D4AC0D','15',false],
-  ['contest-h16',     36,71,'#C0392B','16',false],
+  ['sponsor-h1',       43.7, 48.4, '#C8F04D', '★', true],   // Rampion — moved left 10%
+  ['sponsor-h6',       62.3, 53.5, '#C8F04D', '★', true],   // Wolfe Jack — moved left 10%
+  ['sponsor-h16',      48.0, 60.8, '#C8F04D', '★', true],   // Engel & Völkers
+  ['sponsor-entrance', 55.3, 54.9, '#C8F04D', '★', true],   // GolfTEC
+
+  ['contest-h1',  39.3, 39.2, '#E74C3C', '1',  false],
+  ['contest-h4',  57.3, 26.0, '#E67E22', '4',  false],
+  ['contest-h6',  61.3, 66.7, '#C9A800', '6',  false],
+  ['contest-h8',  47.3, 83.8, '#8E44AD', '8',  false],
+  ['contest-h11', 36.0, 20.0, '#2980B9', '11', false],
+  ['contest-h12', 44.0,  3.0, '#16A085', '12', false],
+  ['contest-h13', 42.0, 24.0, '#27AE60', '13', false],
+  ['contest-h15', 35.3, 58.3, '#D4AC0D', '15', false],
+  ['contest-h16', 36.0, 67.6, '#C0392B', '16', false],
 ];
 
 // ── SCHEDULE ──────────────────────────────────
