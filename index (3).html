@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 PGA of BC Sponsor-Media Invitational</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #080808;
+  --white: #F5F3EF;
+  --green: #1A1A1A;
+  --acid: #C8F04D;
+  --dim: #141414;
+  --mid: #222222;
+  --muted: #888;
+  --border: rgba(255,255,255,0.08);
+}
+
+html, body {
+  height: 100%;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Instrument Sans', sans-serif;
+  overflow: hidden;
+  cursor: default;
+}
+.mobile-body { overflow: auto !important; height: auto !important; }
+
+/* ── NOISE GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: rgba(8,8,8,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--acid);
+}
+.nav-links { display: flex; gap: 0.1rem; }
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-btn:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+.nav-btn.active { color: var(--black); background: var(--acid); }
+
+/* ── PAGES ── */
+.page {
+  position: fixed;
+  inset: 56px 0 0 0;
+  display: none;
+  opacity: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: opacity 0.4s ease;
+}
+.page.active { display: block; }
+.page.visible { opacity: 1; }
+
+/* ════════════════════════════════════════
+   TITLE PAGE
+════════════════════════════════════════ */
+#page-title {
+  display: none;
+  flex-direction: column;
+}
+#page-title.active { display: flex; }
+
+.title-hero {
+  position: relative;
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3.5rem;
+  overflow: hidden;
+}
+.title-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('img_001.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  filter: brightness(0.3) saturate(0.6);
+  transform: scale(1.05);
+  animation: drift 25s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: scale(1.05) translateX(0); }
+  to   { transform: scale(1.08) translateX(-1%); }
+}
+.title-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.4) 50%, transparent 100%);
+}
+.title-content { position: relative; z-index: 2; max-width: 900px; }
+
+.title-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--acid);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: up 0.7s 0.2s forwards;
+}
+.title-tag::before { content: ''; width: 6px; height: 6px; background: var(--black); border-radius: 50%; }
+
+.title-h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: up 0.8s 0.4s forwards;
+}
+.title-h1 em {
+  font-style: normal;
+  color: var(--acid);
+  display: block;
+}
+
+.title-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: up 0.7s 0.6s forwards;
+}
+.meta-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.meta-pill .ml { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.meta-pill .mv { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--white); }
+
+.title-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: up 0.7s 0.8s forwards;
+}
+.btn-primary {
+  background: var(--acid);
+  color: var(--black);
+  border: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,240,77,0.3); }
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+
+.title-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  right: 3.5rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: up 0.7s 1.2s forwards;
+}
+.scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--acid), transparent); animation: scandown 2s ease-in-out infinite; }
+@keyframes scandown { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.3);opacity:0.4} }
+.scroll-txt { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-lr; }
+
+/* ════════════════════════════════════════
+   SCHEDULE PAGE
+════════════════════════════════════════ */
+#page-schedule { background: var(--black); }
+
+.sched-header {
+  padding: 3rem 3rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.sched-header-left {}
+.sched-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 0.75rem;
+}
+.sched-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.sched-note { font-size: 0.8rem; color: var(--muted); max-width: 260px; text-align: right; line-height: 1.5; }
+
+.sched-list { padding: 0 3rem 4rem; }
+.sched-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.sched-item:hover { background: rgba(200,240,77,0.03); }
+.sched-time {
+  padding: 1.5rem 1rem 1.5rem 0;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--acid);
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border);
+}
+.sched-body { padding: 1.5rem 1.5rem; }
+.sched-event {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.sched-detail { font-size: 0.82rem; color: var(--muted); }
+
+/* ════════════════════════════════════════
+   MAP PAGE
+════════════════════════════════════════ */
+#page-map {
+  display: none;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+#page-map.active { display: grid; grid-template-columns: 300px 1fr; }
+
+.map-sidebar {
+  background: var(--dim);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.map-sidebar-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.map-sidebar-sub {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.leg-section {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.75rem 0 0.4rem;
+}
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s;
+  border: 1px solid transparent;
+}
+.leg-item:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--border);
+  transform: translateX(2px);
+}
+.leg-dot {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.leg-star {
+  width: 26px; height: 26px; border-radius: 5px; background: var(--acid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; flex-shrink: 0;
+  color: white;
+}
+.leg-txt strong { display: block; font-size: 0.8rem; font-weight: 500; }
+.leg-txt span { font-size: 0.68rem; color: var(--muted); }
+
+.map-area {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0D0D0D;
+}
+.map-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(28,74,53,0.15) 0%, transparent 70%);
+}
+#map-wrap {
+  position: relative;
+  height: calc(100vh - 56px - 2rem);
+  display: flex; align-items: center; justify-content: center;
+}
+#map-img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 60px rgba(0,0,0,0.8)) brightness(0.95) saturate(0.9);
+}
+#markers-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Map markers */
+.mmarker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: all;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.mmarker:hover { transform: translate(-50%, -50%) scale(1.3); z-index: 20; }
+.mmarker-inner {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem; font-weight: 800;
+  color: var(--black);
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 0 0 rgba(200,240,77,0.3);
+  transition: box-shadow 0.2s;
+}
+.mmarker:hover .mmarker-inner { box-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 0 4px rgba(200,240,77,0.2); }
+.mmarker.sponsor .mmarker-inner {
+  background: var(--acid);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border-color: var(--acid);
+}
+.mmarker-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dim);
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  transition: all 0.15s;
+  color: var(--white);
+}
+.mmarker:hover .mmarker-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+.mmarker-tooltip strong { display: block; color: var(--acid); font-size: 0.65rem; margin-bottom: 0.1rem; font-family:'Syne',sans-serif; font-weight:700; letter-spacing:0.05em; }
+
+/* ════════════════════════════════════════
+   SPONSORS PAGE
+════════════════════════════════════════ */
+#page-sponsors { background: var(--black); }
+.sp-hero {
+  position: relative;
+  padding: 4rem 3rem 3rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.sp-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('img_002.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.12) saturate(0.3);
+}
+.sp-hero-content { position: relative; z-index: 1; }
+.sp-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--acid); margin-bottom: 0.75rem;
+}
+.sp-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  border-top: 1px solid var(--border);
+}
+.sp-card {
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+  overflow: hidden;
+}
+.sp-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--acid);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.sp-card:hover { background: var(--dim); }
+.sp-card:hover::after { transform: scaleX(1); }
+
+.sp-logo-box {
+  height: 90px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s;
+}
+.sp-card:hover .sp-logo-box { border-color: rgba(200,240,77,0.3); }
+
+.sp-tag {
+  display: inline-block;
+  background: rgba(200,240,77,0.1);
+  color: var(--acid);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(200,240,77,0.2);
+}
+.sp-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.sp-loc { font-size: 0.78rem; color: var(--muted); }
+.sp-arrow {
+  margin-top: 1.25rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--acid);
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.sp-card:hover .sp-arrow { opacity: 1; }
+
+.sp-footer {
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ════════════════════════════════════════
+   DRAW PAGE
+════════════════════════════════════════ */
+#page-draw { background: var(--black); overflow-y: auto; }
+.draw-hero {
+  position: relative;
+  padding: 4rem 3rem 3rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.draw-hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('img_005.jpg');
+  background-size: cover; background-position: center;
+  filter: brightness(0.1) saturate(0.3);
+}
+.draw-hero-content { position: relative; z-index: 1; }
+.draw-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--acid); margin-bottom: 0.75rem;
+}
+.draw-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800; letter-spacing: -0.03em;
+  text-transform: uppercase; line-height: 1;
+}
+.draw-subtitle {
+  margin-top: 0.75rem;
+  font-size: 0.85rem; color: var(--muted);
+}
+.draw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  border-top: 1px solid var(--border);
+}
+.draw-hole-block {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.draw-hole-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  background: rgba(200,240,77,0.04);
+  border-bottom: 1px solid var(--border);
+}
+.draw-hole-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem; font-weight: 800;
+  color: var(--acid); line-height: 1;
+  min-width: 2.2rem;
+}
+.draw-hole-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.draw-tee-block {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.draw-tee-block:last-child { border-bottom: none; }
+.draw-tee-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.55rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.draw-tee-letter {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  background: rgba(200,240,77,0.15);
+  border: 1px solid rgba(200,240,77,0.3);
+  border-radius: 4px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem; font-weight: 800;
+  color: var(--acid);
+}
+.draw-group {
+  display: flex; flex-direction: column; gap: 0.3rem;
+}
+.draw-player {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+.draw-player-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.draw-player.pro { cursor: pointer; transition: background 0.15s; }
+.draw-player.pro:hover { background: rgba(200,240,77,0.08); }
+.draw-player.pro .draw-player-name {
+  color: var(--acid);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600; font-size: 0.82rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(200,240,77,0.35);
+  text-underline-offset: 3px;
+}
+.draw-player.am .draw-player-name { color: rgba(245,243,239,0.45); font-style: italic; }
+.draw-player-dot.pro-dot { background: var(--acid); }
+.draw-player-dot.am-dot { background: rgba(255,255,255,0.2); }
+.draw-footer {
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  text-align: center; font-size: 0.82rem;
+  color: var(--muted); font-style: italic;
+}
+
+/* Pro Bio Modal */
+#bio-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 900;
+  display: none; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+#bio-overlay.open { display: flex; }
+#bio-modal {
+  background: var(--dim);
+  width: 100%; max-width: 480px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  overflow: hidden;
+}
+.bio-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
+}
+.bio-tag {
+  background: var(--acid); color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem; font-weight: 800;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.65rem; border-radius: 100px;
+}
+.bio-close {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+  color: var(--white); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.bio-close:hover { background: rgba(255,255,255,0.16); }
+.bio-body { padding: 2rem; }
+.bio-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem; font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 0.3rem;
+}
+.bio-facility {
+  font-size: 0.75rem; color: var(--acid);
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  letter-spacing: 0.08em; margin-bottom: 1.25rem;
+}
+.bio-divider { width: 32px; height: 2px; background: var(--acid); border-radius: 2px; margin-bottom: 1.25rem; }
+.bio-text {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(245,243,239,0.75);
+}
+
+@media (max-width: 768px) {
+  #page-draw { overflow-y: auto; height: auto; }
+  .draw-hero { padding: 3rem 1.5rem 2rem; }
+  .draw-grid { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   MODAL
+════════════════════════════════════════ */
+#modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 800;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+#modal-overlay.open { display: flex; }
+#modal {
+  background: var(--dim);
+  width: 100%;
+  max-width: 820px;
+  max-height: 88vh;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes modalPop {
+  from { opacity:0; transform: scale(0.9) translateY(30px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+.modal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
+}
+.modal-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.modal-tag {
+  background: var(--acid);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem; font-weight: 800;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+}
+.modal-label { font-size: 0.75rem; color: var(--muted); }
+.modal-actions { display: flex; gap: 0.5rem; align-items: center; }
+.modal-map-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal-map-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+.modal-close {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.08);
+  border: none; border-radius: 50%;
+  color: var(--white);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.16); }
+
+.modal-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+.modal-photo {
+  flex: 0 0 42%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.modal-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 70%, var(--dim) 100%);
+}
+.modal-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.modal-hole {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--acid);
+}
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.9rem; font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.modal-divider { width: 32px; height: 2px; background: var(--acid); border-radius: 2px; }
+.modal-desc { font-size: 0.88rem; line-height: 1.75; color: rgba(245,243,239,0.75); }
+.modal-hls { display: flex; flex-direction: column; gap: 0.4rem; }
+.modal-hl {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  background: rgba(200,240,77,0.06);
+  border: 1px solid rgba(200,240,77,0.15);
+  border-radius: 8px;
+  font-size: 0.83rem;
+  color: var(--white);
+}
+.modal-tip {
+  margin-top: auto;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border-left: 2px solid var(--acid);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+  color: rgba(245,243,239,0.6);
+  font-style: italic;
+}
+
+/* ── UTILS ── */
+@keyframes up {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(200,240,77,0.3); }
+
+/* Sponsor pill label on map */
+.sponsor-pill {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: all;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.sponsor-pill:hover { transform: translate(-50%, -50%) scale(1.08); z-index: 20; }
+.sponsor-pill-inner {
+  background: var(--acid);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+.sponsor-pill:hover .sponsor-pill-inner {
+  box-shadow: 0 4px 20px rgba(200,240,77,0.5);
+}
+
+/* ════════════════════════════════════════
+   MOBILE RESPONSIVE
+════════════════════════════════════════ */
+
+/* ── Nav: two-row layout on mobile ── */
+@media (max-width: 640px) {
+  html, body { overflow: auto; height: auto; }
+  .mobile-body { overflow: auto !important; height: auto !important; }
+
+  #nav {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.6rem 1rem 0.4rem;
+    gap: 0.4rem;
+  }
+  .nav-logo {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+  }
+  .nav-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.2rem;
+  }
+  .nav-btn {
+    font-size: 0.56rem;
+    padding: 0.45rem 0.25rem;
+    text-align: center;
+    letter-spacing: 0.06em;
+    border-radius: 6px;
+  }
+
+  /* Pages sit below nav */
+  .page {
+    position: relative;
+    inset: auto;
+    display: none;
+    opacity: 1 !important;
+    overflow-y: auto;
+    min-height: calc(100svh - 90px);
+  }
+  .page.active { display: block; }
+
+  /* Title page */
+  #page-title.active { display: flex; }
+  .title-hero {
+    min-height: calc(100svh - 90px);
+    height: auto;
+    padding: 2rem 1.25rem 2.5rem;
+    justify-content: flex-end;
+  }
+  .title-content { max-width: 100%; }
+  .title-tag { display: none; }
+  .title-h1 { font-size: clamp(2.6rem, 10vw, 4.5rem); margin-bottom: 0.75rem; }
+  .title-h1 em { font-size: 0.88em; }
+  .title-presented { font-size: clamp(0.7rem, 2.5vw, 1rem); margin-bottom: 1.25rem; }
+  .title-meta { gap: 0.85rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .meta-pill .mv { font-size: 0.82rem; }
+  .title-actions { flex-direction: column; gap: 0.6rem; }
+  .btn-primary, .btn-ghost { width: 100%; padding: 0.9rem; font-size: 0.72rem; }
+  .title-scroll-hint { display: none; }
+  .title-footer-note { display: none; }
+
+  /* Schedule */
+  #page-schedule { min-height: auto; padding: 0; }
+  .sched-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 1.25rem 1rem 1rem;
+  }
+  .sched-title { font-size: 2rem; }
+  .sched-note { text-align: left; font-size: 0.72rem; }
+  .sched-list { padding: 0 0 3rem; }
+  .sched-item { grid-template-columns: 78px 1fr; }
+  .sched-time { font-size: 0.62rem; padding: 0.9rem 0.5rem; }
+  .sched-body { padding: 0.9rem 0.85rem; }
+  .sched-event { font-size: 0.88rem; }
+  .sched-detail { font-size: 0.72rem; }
+
+  /* Map */
+  #page-map { height: auto; overflow: visible; min-height: auto; }
+  #page-map.active { display: flex; flex-direction: column; }
+  .map-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+    overflow-y: visible;
+  }
+  .map-sidebar-title { font-size: 0.95rem; }
+  .leg-item { padding: 0.4rem 0.5rem; }
+  .leg-txt strong { font-size: 0.72rem; }
+  .leg-txt span { font-size: 0.62rem; }
+  .leg-dot { width: 22px; height: 22px; font-size: 0.58rem; }
+  .leg-star { width: 22px; height: 22px; font-size: 0.7rem; }
+  .map-area { width: 100%; height: 75vw; min-height: 320px; max-height: 520px; }
+  #map-wrap { height: 100%; width: 100%; }
+  #map-img { height: 100%; width: auto; }
+  .mmarker-inner { width: 32px; height: 32px; font-size: 0.68rem; }
+  .mmarker.sponsor .mmarker-inner { width: 32px; height: 32px; }
+
+  /* Modal — sheet from bottom */
+  #modal-overlay { align-items: flex-end; padding: 0; }
+  #modal {
+    max-width: 100%;
+    max-height: 90svh;
+    border-radius: 16px 16px 0 0;
+    animation: modalSlideUp 0.32s cubic-bezier(0.34,1.2,0.64,1) forwards;
+  }
+  @keyframes modalSlideUp {
+    from { opacity:0; transform:translateY(100%); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .modal-body { flex-direction: column; }
+  .modal-photo { flex: 0 0 180px; min-height: 180px; }
+  .modal-photo::after { display: none; }
+  .modal-content { padding: 1.1rem 1.1rem 1.5rem; }
+  .modal-title { font-size: 1.5rem; }
+  .modal-desc { font-size: 0.82rem; }
+  .modal-hl { font-size: 0.78rem; }
+
+  /* Sponsors */
+  .sp-hero { padding: 2rem 1.25rem 1.5rem; }
+  .sp-grid { grid-template-columns: 1fr; }
+  .sp-card { padding: 1.4rem 1.1rem; border-right: none; }
+  .sp-logo-box { height: 70px; }
+  .sp-name { font-size: 1.15rem; }
+  .sp-footer { padding: 1.25rem; font-size: 0.78rem; }
+}
+
+/* Tablets */
+@media (min-width: 641px) and (max-width: 900px) {
+  #nav { padding: 0 1rem; }
+  .nav-logo { font-size: 0.6rem; letter-spacing: 0.1em; }
+  .nav-btn { font-size: 0.6rem; padding: 0.38rem 0.6rem; }
+  .title-h1 { font-size: clamp(3rem, 7vw, 5.5rem); }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">PGA of BC · Mayfair Lakes</div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="goTo('title')">Home</button>
+    <button class="nav-btn" onclick="goTo('schedule')">Schedule</button>
+    <button class="nav-btn" onclick="goTo('map')">Course</button>
+    <button class="nav-btn" onclick="goTo('draw')">Draw</button>
+    <button class="nav-btn" onclick="goTo('sponsors')">Sponsors</button>
+  </div>
+</nav>
+
+<!-- ══ TITLE ══ -->
+<section class="page" id="page-title">
+  <div class="title-hero">
+    <div class="title-bg"></div>
+    <div class="title-overlay"></div>
+    <div class="title-content">
+      <h1 class="title-h1">PGA of BC<em>Sponsor-Media<br>Invitational</em></h1>
+      <div class="title-presented">Presented by <span>Rampion Ent.</span> &amp; <span>GOLFTEC</span></div>
+      <div class="title-meta">
+        <div class="meta-pill"><span class="ml">Date</span><span class="mv">May 14, 2026</span></div>
+        <div class="meta-pill"><span class="ml">Format</span><span class="mv">Shotgun Start</span></div>
+        <div class="meta-pill"><span class="ml">Tee Time</span><span class="mv">[ TBD ]</span></div>
+        <div class="meta-pill"><span class="ml">Course</span><span class="mv">Mayfair Lakes GCC</span></div>
+      </div>
+      <div class="title-actions">
+        <button class="btn-primary" onclick="goTo('schedule')">Day's Schedule</button>
+        <button class="btn-ghost" onclick="goTo('map')">Explore Course</button>
+        <button class="btn-ghost" onclick="goTo('sponsors')">Our Sponsors</button>
+      </div>
+    </div>
+    <div class="title-scroll-hint">
+      <div class="scroll-line"></div>
+      <div class="scroll-txt">Scroll</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCHEDULE ══ -->
+<section class="page" id="page-schedule">
+  <div class="sched-header">
+    <div class="sched-header-left">
+      <div class="sched-eyebrow">2026 PGA of BC · Mayfair Lakes</div>
+      <h2 class="sched-title">Day's Schedule</h2>
+    </div>
+    <div class="sched-note">May 14, 2026 · Mayfair Lakes Golf & Country Club, Richmond BC</div>
+  </div>
+  <div class="sched-list" id="sched-list"></div>
+</section>
+
+<!-- ══ MAP ══ -->
+<section class="page" id="page-map">
+  <div class="map-sidebar">
+    <div class="map-sidebar-title">Course Map</div>
+    <div class="map-sidebar-sub">Tap any pin to explore sponsors &amp; contests</div>
+
+    <div class="leg-section">★ Sponsors On-Course</div>
+    <div class="leg-item" onclick="openModal('sponsor-entrance')">
+      <div class="leg-star">★</div>
+      <div class="leg-txt"><strong>GOLFTEC + PGA of BC</strong><span>Main Entrance</span></div>
+    </div>
+    <div class="leg-item" onclick="openModal('sponsor-h1')">
+      <div class="leg-star">★</div>
+      <div class="leg-txt"><strong>Rampion</strong><span>Hole 1</span></div>
+    </div>
+    <div class="leg-item" onclick="openModal('sponsor-h6')">
+      <div class="leg-star">★</div>
+      <div class="leg-txt"><strong>Wolfe Jack</strong><span>Hole 6</span></div>
+    </div>
+    <div class="leg-item" onclick="openModal('sponsor-h16')">
+      <div class="leg-star">★</div>
+      <div class="leg-txt"><strong>Engel &amp; Völkers</strong><span>Hole 16</span></div>
+    </div>
+
+    <div class="leg-section">⛳ On-Course Contests</div>
+    <div class="leg-item" onclick="openModal('contest-h1')"><div class="leg-dot" style="background:#E74C3C">1</div><div class="leg-txt"><strong>Straightest Drive</strong><span>Hole 1</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h4')"><div class="leg-dot" style="background:#E67E22">4</div><div class="leg-txt"><strong>KP — Junior Golf</strong><span>Hole 4</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h6')"><div class="leg-dot" style="background:#C9A800">6</div><div class="leg-txt"><strong>Long Drive — Marshmallow</strong><span>Hole 6</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h8')"><div class="leg-dot" style="background:#8E44AD">8</div><div class="leg-txt"><strong>Hickory Club Challenge</strong><span>Hole 8</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h11')"><div class="leg-dot" style="background:#2980B9">11</div><div class="leg-txt"><strong>Long Drive</strong><span>Hole 11</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h12')"><div class="leg-dot" style="background:#16A085">12</div><div class="leg-txt"><strong>Driver KP</strong><span>Hole 12</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h13')"><div class="leg-dot" style="background:#27AE60">13</div><div class="leg-txt"><strong>One Club Challenge</strong><span>Hole 13</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h15')"><div class="leg-dot" style="background:#D4AC0D">15</div><div class="leg-txt"><strong>Hole in One</strong><span>Hole 15</span></div></div>
+    <div class="leg-item" onclick="openModal('contest-h16')"><div class="leg-dot" style="background:#C0392B">16</div><div class="leg-txt"><strong>Closest to the Keg</strong><span>Hole 16</span></div></div>
+  </div>
+  <div class="map-area">
+    <div id="map-wrap">
+      <img id="map-img" src="img_003.jpg" alt="Course Map" onload="placeMarkers()">
+      <div id="markers-layer"></div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="page" id="page-draw">
+  <div class="draw-hero">
+    <div class="draw-hero-bg"></div>
+    <div class="draw-hero-content">
+      <div class="draw-eyebrow">Shotgun Start · 8:00 AM</div>
+      <div class="draw-title">Tournament<br>Draw</div>
+      <div class="draw-subtitle">Click any pro's name to view their bio · Amateurs listed as TBA</div>
+    </div>
+  </div>
+  <div class="draw-grid" id="draw-grid"></div>
+  <div class="draw-footer">Draw subject to change · Contact the PGA of BC for group updates</div>
+</section>
+
+<!-- Pro Bio Modal -->
+<div id="bio-overlay" onclick="bioOverlayClose(event)">
+  <div id="bio-modal">
+    <div class="bio-topbar">
+      <div class="bio-tag">PGA of BC Professional</div>
+      <button class="bio-close" onclick="closeBio()">✕</button>
+    </div>
+    <div class="bio-body">
+      <div class="bio-name" id="bio-name"></div>
+      <div class="bio-facility" id="bio-facility"></div>
+      <div class="bio-divider"></div>
+      <div class="bio-text" id="bio-text"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SPONSORS ══ -->
+<section class="page" id="page-sponsors">
+  <div class="sp-hero">
+    <div class="sp-hero-bg"></div>
+    <div class="sp-hero-content">
+      <div class="sp-eyebrow">2026 PGA of BC Sponsor-Media Invitational</div>
+      <h2 class="sp-title">Sponsors<br>&amp; Partners</h2>
+    </div>
+  </div>
+
+  <!-- ── PRESENTING SPONSORS ── -->
+  <div style="padding:1.5rem 2rem 0.5rem;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C8F04D;margin-bottom:1rem;">Presenting Sponsors</div>
+  </div>
+  <div class="sp-grid" style="grid-template-columns:repeat(2,1fr);">
+    <div class="sp-card" onclick="openModal('sponsor-entrance')">
+      <div class="sp-logo-box"><img src="img_004.jpg" alt="GOLFTEC" style="max-height:70px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Presenting Sponsor</div>
+      <div class="sp-name">GOLFTEC</div>
+      <div class="sp-loc">📍 Main Entrance — Registration Area</div>
+      <div class="sp-arrow">View on map →</div>
+    </div>
+    <div class="sp-card" onclick="openModal('sponsor-h1')">
+      <div class="sp-logo-box" ><img src="RAMPION-LOGO-NEW.png" alt="Rampion" style="max-height:55px;max-width:100%;object-fit:contain;filter:brightness(0) invert(1);"></div>
+      <div class="sp-tag">Presenting Sponsor</div>
+      <div class="sp-name">Rampion Enterprises Ltd.</div>
+      <div class="sp-loc">📍 Hole 1 — Opening Tee</div>
+      <div class="sp-arrow">View on map →</div>
+    </div>
+  </div>
+
+  <!-- ── PRIZE CONTRIBUTORS ── -->
+  <div style="padding:1.5rem 2rem 0.5rem;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C8F04D;margin-bottom:1rem;">Prize Contributors</div>
+  </div>
+  <div class="sp-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="img_018.jpg" alt="TaylorMade" style="max-height:55px;max-width:100%;object-fit:contain;filter:brightness(0) invert(1);"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">TaylorMade Golf</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="golden-eagle-golf-club-logo-png_seeklogo-61901.png" alt="Golden Eagle Golf Club" style="max-height:70px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Golden Eagle Golf Club</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="titleist-logo-png-transparent.png" alt="Titleist" style="max-height:55px;max-width:100%;object-fit:contain;filter:brightness(0) invert(1);"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Titleist</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box">Levelwear</div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Levelwear</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="coolbet.png" alt="Coolbet" style="max-height:65px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Coolbet</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="img_033.png" alt="Hoyne Brewing Co." style="max-height:65px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Hoyne Brewing Co.</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="img_029.png" alt="BC Golf House Society" style="max-height:65px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">British Columbia Golf Association</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box">Golf Trends Inc.</div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Golf Trends Inc.</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="vancouver-canucks-logo.png" alt="Vancouver Canucks" style="max-height:70px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">Vancouver Canucks</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="GandG-Brands-edited.jpeg" alt="G&G Brands" style="max-height:65px;max-width:100%;object-fit:contain;"></div>
+      <div class="sp-tag">Prize Contributor</div>
+      <div class="sp-name">G&amp;G Brands</div>
+    </div>
+    <div class="sp-card">
+      <div class="sp-logo-box"><img src="ab6765630000ba8ab5106210d452a73d707581ac.jpg" alt="Steve Tees Off Podcast" style="max-height:70px;max-width:100%;object-fit:contain;border-radius:8px;"></div>
+      <div class="sp-tag">Media Partner</div>
+      <div class="sp-name">Steve Tees Off Podcast</div>
+    </div>
+  </div>
+
+  <!-- ── INDUSTRY GUIDE ── -->
+  <div style="padding:1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C8F04D;margin-bottom:1rem;">Industry Guide</div>
+    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:1.5rem;background:rgba(255,255,255,0.03);">
+      <div style="flex:1;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;">2026 Industry Guide</div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1.2rem;">A comprehensive guide to BC's golf industry — coming soon. Link to be attached.</div>
+        <div id="industry-guide-btn" style="display:inline-block;padding:0.55rem 1.2rem;background:rgba(200,240,77,0.1);border:1px solid rgba(200,240,77,0.25);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#C8F04D;cursor:default;opacity:0.5;">Link Coming Soon</div>
+      </div>
+      <div style="width:64px;height:64px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;">📋</div>
+    </div>
+  </div>
+
+  <div class="sp-footer">Thank you to all of our sponsors for making the 2026 PGA of BC Sponsor-Media Invitational possible.</div>
+</section>
+
+<!-- ══ MODAL ══ -->
+<div id="modal-overlay" onclick="overlayClose(event)">
+  <div id="modal">
+    <div class="modal-topbar">
+      <div class="modal-topbar-left">
+        <div class="modal-tag" id="m-tag">Contest</div>
+        <div class="modal-label" id="m-label">On-Course</div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-map-btn" onclick="goToMapFromModal()">View on Map</button>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-photo" id="m-photo"></div>
+      <div class="modal-content">
+        <div class="modal-hole" id="m-hole"></div>
+        <div class="modal-title" id="m-title"></div>
+        <div id="m-sponsor" style="display:none;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--acid);margin-bottom:0.75rem;"></div>
+        <div class="modal-divider"></div>
+        <div class="modal-desc" id="m-desc"></div>
+        <div class="modal-hls" id="m-hls"></div>
+        <div class="modal-tip" id="m-tip"></div>
+        <div id="m-logo" style="display:none;align-items:center;justify-content:flex-start;margin-top:1rem;padding:0.85rem 1rem;background:white;border-radius:8px;min-height:70px;"></div>
+        <div id="m-logo" style="display:none;align-items:center;justify-content:flex-start;margin-top:1rem;padding:0.75rem;background:white;border-radius:8px;border:1px solid rgba(255,255,255,0.1);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ───────────────────────────────────────
+const SCHEDULE = [
+  {t:'7:00 AM', e:'Registration & Range Opens',  d:'Main Entrance — GOLFTEC & PGA of BC on-site'},
+  {t:'7:40 AM', e:'Pro Meeting',                 d:'All players and pros to attend before heading to holes'},
+  {t:'7:50 AM', e:'Travel to Holes',             d:'Make your way to your assigned shotgun hole'},
+  {t:'8:00 AM', e:'Shotgun Start',               d:'All players tee off simultaneously — good luck out there!'},
+  {t:'12:30 PM', e:'Lunch Banquet Begins',       d:'Join us in the clubhouse for lunch and celebration'},
+  {t:'1:00 PM', e:'Prize Presentation',          d:'Contest winners and prizes announced'},
+  {t:'1:30 PM', e:'Estimated Conclusion',        d:'Thank you for joining us — see you next year!'},
+];
+
+const IMGS = {
+  hole1:"img_005.jpg",
+  hole6:"img_006.jpg",
+  hole16:"img_001.jpg",
+  entrance:"img_002.jpg",
+  map:"img_003.jpg",
+  h1_contest:"img_007.jpg",
+  h4_contest:"img_008.jpg",
+  h6_contest:"img_009.jpg",
+  h8_contest:"img_010.jpg",
+  h11_contest:"img_011.jpg",
+  h12_contest:"img_012.jpg",
+  h13_contest:"img_013.jpg",
+  h15_contest:"img_014.jpg",
+  h16_contest:"img_015.jpg"
+};
+
+const LOGOS = {
+  golftec:"img_004.jpg",
+  pga_bc_logo:"img_016.jpg",
+  axis_logo:"img_017.png",
+  taylormade_logo:"img_018.jpg",
+  srixon_logo:"img_019.png",
+  honma_logo:"img_020.jpg",
+  adidas_logo:"img_021.png",
+  nike_logo:"img_022.png",
+  mint_green_logo:"img_023.png",
+  gg_brands_logo:"GandG-Brands-edited.jpeg",
+  play_golf_logo:"img_025.png",
+  rampion:"img_026.png",
+  pga_bc:"img_027.png",
+  wolfe_jack:"img_028.png",
+  bc_golf:"img_029.png",
+  taylormade:"img_030.png",
+  srixon:"img_031.png",
+  axis:"img_032.png",
+  hoyne:"img_033.png"
+};
+
+const DATA = {
+  'sponsor-entrance':{type:'sponsor',tag:'Sponsor',label:'Main Entrance',img:IMGS.entrance,hole:'Main Entrance · Mayfair Lakes',title:'GOLFTEC + PGA of BC',desc:"Before you tee it up, swing by the main entrance to say hello to today's incredible sponsors! GOLFTEC is ready to chat about your game, and the PGA of BC team is here to get you registered with awesome tee gifts.",hl:['📋 PGA of BC — Registration & tee gift pick-up','🏌️ GOLFTEC — Come chat about your game'],tip:'First stop of the day — start it right!',sponsor:'',logo:LOGOS.golftec},
+  'sponsor-h1':{type:'sponsor',tag:'Sponsor',label:'Hole 1',img:IMGS.hole1,hole:'Hole 1 · Opening Tee',title:'Rampion Enterprises Ltd.',desc:"Kick off your round with Rampion Enterprises Ltd. at the first tee! The team will be on hand all day — take a moment to say hello before you stripe it down the fairway.",hl:['👋 Rampion team on-site at the opening tee','🏆 Find out what Rampion can do for you'],tip:'Best way to start a round — with a handshake!',sponsor:'',logo:LOGOS.rampion},
+  'sponsor-h6':{type:'sponsor',tag:'Sponsor',label:'Hole 6',img:IMGS.hole6,hole:'Hole 6 · Parking Lot Corridor',title:'Wolfe Jack Supply Co.',desc:"Rolling through Hole 6? The Wolfe Jack Supply Co. crew is out here and they brought the energy! Swing by and get to know one of today's fantastic sponsors.",hl:['🎉 Wolfe Jack Supply Co. — Hole 6 Sponsor','😄 Stop by — they would love to meet you!'],tip:'Mid-round energy boost — delivered!',sponsor:'',logo:LOGOS.wolfe_jack},
+  'sponsor-h16':{type:'sponsor',tag:'Sponsor',label:'Hole 16',img:IMGS.hole16,hole:'Hole 16 · Clubhouse View',title:'Engel & Volkers',desc:"Heading into the home stretch? Stop and say hi to the Engel & Volkers team at Hole 16! Whether curious about real estate or just want a friendly face on the back nine, they're here.",hl:['🏡 Engel & Volkers — Premium real estate','📍 Find them at the Hole 16 fairway'],tip:'Home stretch — finish strong and say hello!',sponsor:'',logo:LOGOS.gg_brands_logo},
+  'contest-h1':{type:'contest',tag:'Contest',label:'Hole 1',img:IMGS.h1_contest,hole:'Hole 1',title:'🎯 Straightest Drive',sponsor:'Supported by Rampion Ent. Ltd',desc:"Think you can split the fairway? Hole 1 kicks off the fun with the Straightest Drive contest! Accuracy is everything here — power takes a back seat. May the straightest hitter win!",hl:['🎯 Closest to the centre line wins','📏 Measured from the fairway center'],tip:'Pick a target, stay smooth, trust your swing.',logo:LOGOS.rampion},
+  'contest-h4':{type:'contest',tag:'Contest',label:'Hole 4',img:IMGS.h4_contest,hole:'Hole 4',title:'KP — Donation for Junior Golf',sponsor:'Supported by PGA of BC',desc:'Every great shot on Hole 4 helps grow the next generation of golfers! $5 per shot — 50% goes to junior golf and 50% goes to the KP winner. Take as many shots as you want!',hl:['💰 $5 per shot — 50% junior golf, 50% KP winner','🔁 Take as many shots as you want','📋 Proceeds support BC junior golf','📍 Closest to the pin wins'],tip:'Give back and fire at the flag!',logo:LOGOS.pga_bc_logo},
+  'contest-h6':{type:'contest',tag:'Contest',label:'Hole 6',img:IMGS.h6_contest,hole:'Hole 6',title:'🍡 Marshmallow Long Drive',sponsor:'Supported by Wolfe Jack Supply Co.',desc:'Swap your ball for a marshmallow and let it fly! Grip it, rip it, see how far your fluffy projectile travels. Marshmallow provided — furthest in the fairway wins!',hl:['🍡 Marshmallow provided on-site','😂 Furthest in the fairway wins'],tip:'Warning: marshmallows may attract wildlife.',logo:LOGOS.wolfe_jack},
+  'contest-h8':{type:'contest',tag:'Contest',label:'Hole 8',img:IMGS.h8_contest,hole:'Hole 8',title:'🪵 Hickory Club Challenge',sponsor:'Supported by BC Golf House Society',desc:'Put down the modern gear and pick up a classic hickory club — the same kind the legends of golf once played with. KP contest using hickory clubs provided on-site.',hl:['🪵 Hickory clubs provided on-site','🎯 KP contest using hickory clubs'],tip:'Finesse beats force every time.',logo:LOGOS.bc_golf},
+  'contest-h11':{type:'contest',tag:'Contest',label:'Hole 11',img:IMGS.h11_contest,hole:'Hole 11',title:'💪 Long Drive',sponsor:'Supported by TaylorMade Golf',desc:"Time to unleash the big dog! Hole 11's Long Drive contest is all about distance. Longest drive in the fairway wins. Step up, wind up, let it go!",hl:['💥 Longest drive in the fairway wins','📐 Must stay in bounds to count'],tip:"Bombs don't count from the trees!",logo:LOGOS.taylormade_logo},
+  'contest-h12':{type:'contest',tag:'Contest',label:'Hole 12',img:IMGS.h12_contest,hole:'Hole 12',title:'🎳 Driver KP',sponsor:'Supported by PGA of BC',desc:"Hole 12's Driver KP flips the script — grab the big stick and see how close you can get to the pin. Control wins here.",hl:['Driver only!','📍 Closest to the flag takes it'],tip:'Let the loft do the work.',logo:LOGOS.pga_bc_logo},
+  'contest-h13':{type:'contest',tag:'Contest',label:'Hole 13',img:IMGS.h13_contest,hole:'Hole 13',title:'⛳ One Club Challenge',sponsor:'Supported by Srixon/Cleveland Golf',desc:'One club for the entire hole. Tee shot, approach, chip, putt — all with the same stick. Pick your weapon wisely and get creative!',hl:['One club for the whole hole','🧠 Course management wins'],tip:'The 7-iron is usually the right answer.',logo:LOGOS.srixon_logo},
+  'contest-h15':{type:'contest',tag:'Contest',label:'Hole 15',img:IMGS.h15_contest,hole:'Hole 15',title:'🏆 Hole in One',sponsor:'Supported by AXIS Insurance',desc:"This is the one everyone's been waiting for! Take dead aim at the flag — one swing, one bounce, one rattle of the cup. The glory lasts a lifetime.",hl:['🏆 Hole-in-one wins the grand prize!','⛳ Par 3 — one of Mayfair finest holes'],tip:'Commit, trust the line, dream big!',logo:LOGOS.axis_logo},
+  'contest-h16':{type:'contest',tag:'Contest',label:'Hole 16',img:IMGS.h16_contest,hole:'Hole 16',title:'🍺 Closest to the Keg',sponsor:'Supported by Hoyne Brewing',desc:"Stick it closest to the pin and win a round for your whole group. The most refreshing contest on the course — dial in that iron and celebrate in style.",hl:['🍺 Winner gets a round for the group!','📍 Closest to the keg on approach'],tip:'Nothing sharpens focus like cold beer on the line!',logo:LOGOS.hoyne},
+};
+
+
+const MARKERS = [
+  ['sponsor-h1',       43.7, 48.4, '#C8F04D', '★', true],   // Rampion — moved left 10%
+  ['sponsor-h6',       62.3, 53.5, '#C8F04D', '★', true],   // Wolfe Jack — moved left 10%
+  ['sponsor-h16',      48.0, 60.8, '#C8F04D', '★', true],   // Engel & Völkers
+  ['sponsor-entrance', 55.3, 54.9, '#C8F04D', '★', true],   // GOLFTEC
+
+  ['contest-h1',  39.3, 39.2, '#E74C3C', '1',  false],
+  ['contest-h4',  57.3, 26.0, '#E67E22', '4',  false],
+  ['contest-h6',  61.3, 66.7, '#C9A800', '6',  false],
+  ['contest-h8',  47.3, 83.8, '#8E44AD', '8',  false],
+  ['contest-h11', 36.0, 20.0, '#2980B9', '11', false],
+  ['contest-h12', 44.0,  3.0, '#16A085', '12', false],
+  ['contest-h13', 42.0, 24.0, '#27AE60', '13', false],
+  ['contest-h15', 35.3, 58.3, '#D4AC0D', '15', false],
+  ['contest-h16', 36.0, 67.6, '#C0392B', '16', false],
+];
+
+// ── SCHEDULE ──────────────────────────────────
+document.getElementById('sched-list').innerHTML = SCHEDULE.map((s,i)=>`
+  <div class="sched-item">
+    <div class="sched-time">${s.t}</div>
+    <div class="sched-body">
+      <div class="sched-event">${s.e}</div>
+      <div class="sched-detail">${s.d}</div>
+    </div>
+  </div>`).join('');
+
+// ── NAV / PAGES ───────────────────────────────
+const PAGES = ['title','schedule','map','draw','sponsors'];
+const isMobile = () => window.innerWidth <= 768;
+
+function goTo(id) {
+  PAGES.forEach(p => {
+    const pg = document.getElementById('page-'+p);
+    pg.classList.remove('active','visible');
+    pg.style.display = '';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active', PAGES[i] === id);
+  });
+  const pg = document.getElementById('page-'+id);
+  pg.classList.add('active');
+
+  if (isMobile()) {
+    // Mobile: pages are in normal flow, scroll to top
+    document.body.classList.add('mobile-body');
+    pg.style.display = 'block';
+    window.scrollTo(0, 0);
+  } else {
+    // Desktop: fixed positioned pages
+    document.body.classList.remove('mobile-body');
+    pg.style.display = id==='map' ? 'grid' : 'block';
+  }
+
+  setTimeout(()=> pg.classList.add('visible'), 20);
+  if (id==='map') setTimeout(()=>{
+    const img = document.getElementById('map-img');
+    if(img.complete) placeMarkers();
+  }, 80);
+}
+
+// ── MAP MARKERS ───────────────────────────────
+function placeMarkers() {
+  const img = document.getElementById('map-img');
+  const wrap = document.getElementById('map-wrap');
+  const layer = document.getElementById('markers-layer');
+  // Small delay on mobile to ensure layout is complete
+  if (!img.complete || img.naturalWidth === 0) {
+    img.onload = placeMarkers; return;
+  }
+  const ir = img.getBoundingClientRect();
+  const wr = wrap.getBoundingClientRect();
+  const ox = ir.left - wr.left, oy = ir.top - wr.top;
+
+  layer.innerHTML = MARKERS.map(([id,nx,ny,color,label,isSponsor])=>{
+    const x = ox + (nx/100)*ir.width;
+    const y = oy + (ny/100)*ir.height;
+    const d = DATA[id];
+    const tip = d ? d.title : label;
+    return `<div class="mmarker ${isSponsor?'sponsor':''}" style="left:${x}px;top:${y}px" onclick="openModal('${id}')">
+      <div class="mmarker-inner" style="${isSponsor?'':'background:'+color}">${label}</div>
+      <div class="mmarker-tooltip"><strong>${isSponsor?'Sponsor':'Hole '+d.hole}</strong>${tip}</div>
+    </div>`;
+  }).join('');
+}
+window.addEventListener('resize',()=>{
+  if(document.getElementById('page-map').classList.contains('active')){
+    const img=document.getElementById('map-img');
+    if(img.complete) placeMarkers();
+  }
+});
+
+// ── MODAL ─────────────────────────────────────
+function openModal(id) {
+  const d = DATA[id]; if(!d) return;
+  document.getElementById('m-tag').textContent = d.tag;
+  document.getElementById('m-label').textContent = d.label;
+  document.getElementById('m-photo').style.backgroundImage = `url('${d.img}')`;
+  document.getElementById('m-hole').textContent = d.hole;
+  document.getElementById('m-title').textContent = d.title;
+
+  // Sponsor credit line
+  const sponsorEl = document.getElementById('m-sponsor');
+  if (d.sponsor) {
+    sponsorEl.textContent = d.sponsor;
+    sponsorEl.style.display = 'block';
+  } else {
+    sponsorEl.style.display = 'none';
+  }
+
+  document.getElementById('m-desc').textContent = d.desc;
+  document.getElementById('m-hls').innerHTML = d.hl.map(h=>`<div class="modal-hl">${h}</div>`).join('');
+  document.getElementById('m-tip').textContent = '💡 ' + d.tip;
+
+  // Sponsor logo
+  const logoEl = document.getElementById('m-logo');
+  if (d.logo) {
+    logoEl.innerHTML = `<img src="${d.logo}" alt="sponsor logo" style="max-height:55px;max-width:200px;object-fit:contain;display:block;">`;
+    logoEl.style.display = 'flex';
+  } else {
+    logoEl.innerHTML = '';
+    logoEl.style.display = 'none';
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function overlayClose(e){ if(e.target===document.getElementById('modal-overlay')) closeModal(); }
+function goToMapFromModal(){ closeModal(); goTo('map'); }
+
+
+// ── DRAW ───────────────────────────────────────
+const PROS = [
+  {name:"Adam Blair",       facility:"vernongolf.com",          bio:"General Manager at the Vernon G&CC. 2024 PGA of BC Distinguished Service Award winner."},
+  {name:"Alec Hubert",      facility:"kamloopsgolfclub.com",    bio:"General Manager at the Kamloops G&CC. Co-Chair, Membership & Employment Committee."},
+  {name:"Ashley Zibrik",    facility:"shaughnessy.org",         bio:"Director of Golf at Shaughnessy G&CC. Current PGA of BC Past President. PGA of BC Women's Champion – 2022, 2018, 2012."},
+  {name:"Brad Jones",       facility:"vernongolf.com",          bio:"Golf Operations Manager, Vernon G&CC. 2024 Professional Development Top 100."},
+  {name:"Brady Stead",      facility:"ledgeviewgolf.com",       bio:"Teaching Professional at Ledgeview GC. 2024 Community Leadership Bursary Award Winner."},
+  {name:"Callum Ashby",     facility:"highlandpacificgolf.com", bio:"Head Golf Professional at Highland Pacific Golf. 2024 PGA of BC Community Engagement Committee Chair."},
+  {name:"Chris MacDonald",  facility:"gothunderbirds.ca",       bio:"Head Golf Coach at University of British Columbia. 5-time NAIA Coach of the Year."},
+  {name:"Chris Ward",       facility:"shaughnessy.org",         bio:"Associate Golf Professional at Shaughnessy G&CC. 2024 Professional Development Top 100."},
+  {name:"Christine Wong",   facility:"christinewgolf@gmail.com",bio:"Teaching Professional. PGA of BC Women's Champion – 2023, 2020. PGA of Canada Women's Champion – 2021."},
+  {name:"Curtis Baldwin",   facility:"meadowgardensgolf.com",   bio:"Director of Golf and Sales, Meadow Gardens GC & Fort Langley GC."},
+  {name:"Deneb Rondinone",  facility:"tsawwassensprings.ca",    bio:"Pro Shop Supervisor, Tsawwassen Springs Golf. 2024 Professional Development Top 100."},
+  {name:"Doug Hastie",      facility:"golfcanada.ca",           bio:"Regional Director, Golf Canada. Teaching Professional."},
+  {name:"Dylan Nickel",     facility:"chilliwackgolf.com",      bio:"Apprentice Professional, Chilliwack GC. 2024 PGA of BC Community Engagement Top 10."},
+  {name:"Fraser Mulholland",facility:"vancouvergolftour.com",   bio:"Founder of The Vancouver Golf Tour. 2004 PGA of BC Champion. 25+ year Member of the PGA of BC."},
+  {name:"GOLFTEC Professional",facility:"golftec.com",          bio:"Teaching Professional at GOLFTEC."},
+  {name:"Jared Siminoff",   facility:"hausofgolf.ca",           bio:"General Manager at The Haus of Golf. 2025 PGA of BC Tournament Committee Co-Chair."},
+  {name:"Jeff Palmer",      facility:"highlandpacificgolf.com", bio:"General Manager at Highland Pacific Golf. 2024 NGCOA Award Winner. 2024 Professional Development Top 100."},
+  {name:"Josh Legge",       facility:"universitygolf.com",      bio:"Head Golf Professional at the University Golf Club; Host Pro, 2025 Sponsor Media Appreciation Invitational."},
+  {name:"Kevin Stinson",    facility:"cheammountaingolf.ca",    bio:"Head Teaching Professional at Cheam Mountain GC. 2024 PGA of BC Player of the Year. 2023 PGA of Canada Champion."},
+  {name:"Kyle German",      facility:"callawaygolf.ca",         bio:"Sales Rep at Callaway Golf. 2008 PGA of Canada Champion. 25+ year Member of the PGA of BC."},
+  {name:"Lance Antonenko",  facility:"taylormadegolf.ca",       bio:"Territory Manager, Taylormade Golf Canada. 25+ year Member of the PGA of BC."},
+  {name:"Lenny Cyr",        facility:"seymourgolf.com",         bio:"Associate Golf Professional at Seymour G&CC. Current President of the PGA of BC."},
+  {name:"Luke Bogdan",      facility:"aceperformancecenter.com",bio:"Teaching Professional at Ace Performance Centre. Sales Rep at Pocketbrush."},
+  {name:"Mark Valliere",    facility:"glaciergreens.com",       bio:"Assistant Golf Professional at Glacier Greens GC. 2024 Professional Development Top 100."},
+  {name:"Matthew Steger",   facility:"tsawwassensprings.ca",    bio:"Associate Professional at Tsawwassen Springs Golf."},
+  {name:"Ryan Tofani",      facility:"sandpiperresort.ca",      bio:"Head Golf Professional at Sandpiper Golf Resort. 2024 PGA of BC Professional Development Award Winner."},
+  {name:"Steve Liddicoat",  facility:"thebackyard.golf",        bio:"Head Golf Professional at Backyard Golf/Clayton Hills. 2024 Tournament Committee Co-Chair."},
+  {name:"Steven Lecuyer",   facility:"seymourcreekgolf.com",    bio:"Teaching Professional at Seymour Creek Driving Range. 2023 & 2024 PGA of BC Assistant's Champion."},
+  {name:"Tyler Komick",     facility:"highlandpacificgolf.com", bio:"Teaching Professional at Highland Pacific Golf. 2024 Community Engagement Top 10."},
+  {name:"Doug Hastie",      facility:"golfcanada.ca",           bio:"Regional Director, Golf Canada. Teaching Professional."},
+];
+
+// Build draw: holes 1-12 have A+B tees, holes 13-18 have A only = 24+6 = 30 groups
+const DRAW = [];
+let pIdx = 0;
+for (let h = 1; h <= 18; h++) {
+  const tees = h <= 12 ? ['A','B'] : ['A'];
+  for (const tee of tees) {
+    DRAW.push({ hole: h, tee, pro: PROS[pIdx++] });
+  }
+}
+
+// Group by hole for rendering
+const holeMap = {};
+for (const g of DRAW) {
+  if (!holeMap[g.hole]) holeMap[g.hole] = [];
+  holeMap[g.hole].push(g);
+}
+
+document.getElementById('draw-grid').innerHTML = Object.entries(holeMap).map(([hole, groups]) => `
+  <div class="draw-hole-block">
+    <div class="draw-hole-header">
+      <div class="draw-hole-num">${hole}</div>
+      <div class="draw-hole-label">Hole ${hole}</div>
+    </div>
+    ${groups.map(g => `
+      <div class="draw-tee-block">
+        <div class="draw-tee-label">
+          <span class="draw-tee-letter">${g.tee}</span>
+          Tee ${g.tee}
+        </div>
+        <div class="draw-group">
+          <div class="draw-player pro" onclick="openBio('${g.pro.name.replace(/'/g,"\\'")}','${g.pro.facility.replace(/'/g,"\\'")}','${g.pro.bio.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">
+            <div class="draw-player-dot pro-dot"></div>
+            <div class="draw-player-name">${g.pro.name}</div>
+          </div>
+          <div class="draw-player am"><div class="draw-player-dot am-dot"></div><div class="draw-player-name">TBA</div></div>
+          <div class="draw-player am"><div class="draw-player-dot am-dot"></div><div class="draw-player-name">TBA</div></div>
+          <div class="draw-player am"><div class="draw-player-dot am-dot"></div><div class="draw-player-name">TBA</div></div>
+        </div>
+      </div>`).join('')}
+  </div>`).join('');
+
+function openBio(name, facility, bio) {
+  document.getElementById('bio-name').textContent = name;
+  document.getElementById('bio-facility').textContent = facility;
+  document.getElementById('bio-text').textContent = bio;
+  document.getElementById('bio-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeBio() {
+  document.getElementById('bio-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function bioOverlayClose(e) { if(e.target===document.getElementById('bio-overlay')) closeBio(); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeModal(); closeBio(); } });
+
+// ── INIT ──────────────────────────────────────
+if (isMobile()) document.body.classList.add('mobile-body');
+window.addEventListener('resize', () => {
+  if (isMobile()) document.body.classList.add('mobile-body');
+  else document.body.classList.remove('mobile-body');
+});
+goTo('title');
+</script>
+</body>
+</html>
